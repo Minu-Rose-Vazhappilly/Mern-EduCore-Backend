@@ -1,4 +1,5 @@
 const users = require('../models/userModel')
+const jwt = require('jsonwebtoken')
 exports.registerController = async (req,res)=>{
     console.log("Inside Register API");
 
@@ -28,18 +29,24 @@ exports.registerController = async (req,res)=>{
 exports.loginController = async (req,res)=>{
     console.log("Inside Login Api");
 
-    const {username,email,password} = req.body
-    console.log(username,email,password);
+    const {email,password} = req.body
+    console.log(email,password);
     try{
-        const existingUser = await users.findOne({email,password})
+        const existingUser = await users.findOne({email})
         if(existingUser){
-            res.status(200).json({user:existingUser})
+            if(existingUser.password == password){
+                const token = jwt.sign({userMail:existingUser.email},process.env.JWTSECRET)
+                res.status(200).json({user:existingUser,token})
+            }else{
+                res.status(401).json("Invalid Email/Password")
+            }
+            
         }else{
            
-            res.status(404).json("Invalid Email/Password")
+            res.status(404).json("Account does not exist")
         }
 
-    }catch{
+    }catch(err){
           res.status(500).json(err)
     }
     
