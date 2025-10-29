@@ -8,6 +8,7 @@ const educoreServer = express()
 educoreServer.use(cors())
 educoreServer.use(express.json())
 educoreServer.use(router)
+educoreServer.use('/uploads',express.static('./uploads'))
 
 const PORT = 3001
 

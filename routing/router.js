@@ -14,4 +14,6 @@ router.post('/add-course',jwtMiddleware,upload.fields([
     { name: 'fileUrl', maxCount: 50 }     // multiple PDFs
   ]),courseController.addCourseController)
 
+router.get('/home-courses',courseController.getHomeCourses)
+
 module.exports = router

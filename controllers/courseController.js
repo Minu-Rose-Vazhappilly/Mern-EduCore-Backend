@@ -48,3 +48,15 @@ exports.addCourseController = async (req,res)=>{
 
  
 }
+
+exports.getHomeCourses = async(req,res)=>{
+    console.log("Inside getHomeBooks");
+    try{
+        const allHomeCourses = await course.find().sort({_id:-1}).limit(4)
+        res.status(200).json(allHomeCourses)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+    
+}
