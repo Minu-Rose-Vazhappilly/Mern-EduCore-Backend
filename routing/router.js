@@ -15,5 +15,6 @@ router.post('/add-course',jwtMiddleware,upload.fields([
   ]),courseController.addCourseController)
 
 router.get('/home-courses',courseController.getHomeCourses)
-
+router.get('/all-courses',jwtMiddleware,courseController.getAllCoursesController)
+router.get('/courses/:id/view',jwtMiddleware,courseController.viewCourseController)
 module.exports = router

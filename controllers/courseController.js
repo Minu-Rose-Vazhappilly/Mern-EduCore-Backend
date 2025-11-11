@@ -60,3 +60,34 @@ exports.getHomeCourses = async(req,res)=>{
     }
     
 }
+
+exports.getAllCoursesController = async(req,res) =>{
+    console.log("Inside getAllCourses");
+    const searchKey = req.query.search
+    
+    
+    const email = req.payload
+    const query = {
+        courseTitle:{$regex : searchKey,$options:'i'},
+        
+    }
+    try{
+
+        const allCourses = await course.find(query)
+        res.status(200).json(allCourses)
+
+    }catch(err){
+        res.status(500).json(err)
+    }    
+}
+exports.viewCourseController = async (req, res) => {
+    console.log("Inside viewCourseController");
+    const {id} = req.params
+    console.log(id);
+    try{
+        const viewCourse = await course.findById({_id:id})
+        res.status(200).json(viewCourse)
+    }catch(err){
+        res.status(500).json(err)
+    }
+}
