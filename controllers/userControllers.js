@@ -35,7 +35,7 @@ exports.loginController = async (req,res)=>{
         const existingUser = await users.findOne({email})
         if(existingUser){
             if(existingUser.password == password){
-                const token = jwt.sign({userMail:existingUser.email,role:existingUser.role},process.env.JWTSECRET)
+                const token = jwt.sign({userMail:existingUser.email,role:existingUser.role,userId:existingUser._id},process.env.JWTSECRET)
                 res.status(200).json({user:existingUser,token})
             }else{
                 res.status(401).json("Invalid Email/Password")
@@ -61,7 +61,7 @@ exports.googleLoginController = async (req,res)=>{
     try{
         const existingUser = await users.findOne({email})
         if(existingUser){
-              const token = jwt.sign({userMail:existingUser.email},process.env.JWTSECRET)
+              const token = jwt.sign({userMail:existingUser.email,role:existingUser.role,userId:existingUser._id},process.env.JWTSECRET)
             res.status(200).json({user:existingUser,token})
 
         }else{
@@ -71,7 +71,7 @@ exports.googleLoginController = async (req,res)=>{
             password,profile
             })
             await newUser.save()
-            const token = jwt.sign({userMail:newUser.email},process.env.JWTSECRET)
+            const token = jwt.sign({userMail:newUser.email,role:existingUser.role,userId:existingUser._id},process.env.JWTSECRET)
             res.status(200).json({user:newUser,token})
 
         }
@@ -97,4 +97,18 @@ exports.userProfileEditController =  async(req,res)=>{
         res.status(500).json(err)
     }
 
+}
+exports.adminProfileEditController = async(req,res)=>{
+    console.log("Inside adminProfileEditController");
+    const {username,password,role,profile} = req.body
+    const email = req.payload
+    const uploadAdminProfile = req.file?req.file.filename:profile
+    try{
+        const updateAdmin = await users.findOneAndUpdate({email},{username,email,password,profile:uploadAdminProfile,role},{new:true})
+        await updateAdmin.save()
+        res.status(200).json(updateAdmin)
+    }catch(err){
+        res.status(500).json(err)
+    }
+    
 }

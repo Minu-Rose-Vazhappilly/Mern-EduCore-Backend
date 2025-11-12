@@ -9,6 +9,7 @@ const jwtMiddleware = (req,res,next)=>{
         const jwtResponse = jwt.verify(token,process.env.JWTSECRET)
         console.log(jwtResponse);
         req.payload = jwtResponse.userMail
+        req.id = jwtResponse.userId
         next()
         
 
