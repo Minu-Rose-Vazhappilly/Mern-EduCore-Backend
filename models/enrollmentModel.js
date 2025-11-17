@@ -27,6 +27,10 @@ const enrollmentSchema = new mongoose.Schema({
   enrolledAt: {
     type: Date,
     default: Date.now
+  },
+  status:{
+    type:String,
+    default:"ongoing"
   }
 });
 const enrollments = mongoose.model('Enrollment', enrollmentSchema)

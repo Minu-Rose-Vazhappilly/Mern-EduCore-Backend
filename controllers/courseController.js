@@ -259,6 +259,41 @@ exports.getCourseStats = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.getUserEnrollments = async (req, res) => {
+    
+  try {
+    const userId = req.id;
+    const enrollmentCourses = await enrollments.find({ userId }).populate('courseId');
+    res.status(200).json(enrollmentCourses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.getAUserEnrollments = async (req, res) => {
+    
+  try {
+    const userId = req.id;
+    const { id } = req.params
+    const enrollmentCourses = await enrollments.findById({_id: id }).populate('courseId');
+    res.status(200).json(enrollmentCourses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.updateCourseStatus = async(req,res)=>{
+const {_id,userId,userEmail,courseId,courseTitle,coursePrice,enrolledAt,status} = req.body
+try{
+
+    const updatedResult = await enrollments.findByIdAndUpdate({_id},{userId,userEmail,courseId,courseTitle,coursePrice,enrolledAt,status:"completed"},{new:true})
+    await updatedResult.save()
+    res.status(200).json(updatedResult)
+
+}catch(err){
+    console.log(err);
+    
+}
+}
+
 
 
 

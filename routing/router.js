@@ -37,4 +37,7 @@ router.put('/user-profile/edit',jwtMiddleware,upload.single('profile'),userContr
 router.get('/all-application',adminJwtMiddleware,applicationController.getApplicationController)
 router.post('/make-payment',jwtMiddleware,courseController.makeBookPaymentController)
 router.get('/verify-payment', jwtMiddleware, courseController.verifyPaymentAndEnroll);
+router.get('/user-enrolled', jwtMiddleware, courseController.getUserEnrollments);
+router.get('/user-acourse-enrolled/:id', jwtMiddleware, courseController.getAUserEnrollments);
+router.put('/user-updated-course-enrolled', jwtMiddleware, courseController.updateCourseStatus);
 module.exports = router
