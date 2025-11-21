@@ -151,8 +151,11 @@ exports.makeBookPaymentController = async (req, res) => {
             payment_method_types: ["card"],
             line_items,
             mode: 'payment',
-            success_url:"http://localhost:5174/payment-success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url:"http://localhost:5174/payment-error",
+            //https://mern-edu-core-frontend.vercel.app/
+            // success_url:"http://localhost:5174/payment-success?session_id={CHECKOUT_SESSION_ID}",
+            // cancel_url:"http://localhost:5174/payment-error",
+            success_url:"https://mern-edu-core-frontend.vercel.app/payment-success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url:"https://mern-edu-core-frontend.vercel.app/payment-error",
             metadata: {
     courseId: _id,
     courseTitle,
